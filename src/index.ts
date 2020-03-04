@@ -1,5 +1,11 @@
 import * as Phaser from 'phaser';
 
+interface ICreateEmitterParams {
+  speed: number;
+  scale: { start: number; end: number; },
+  blendMode: string;
+}
+
 const config = {
   type: Phaser.AUTO,
   width: 800,
@@ -31,11 +37,12 @@ function create() {
 
   const particles = this.add.particles('red');
 
-  const emitter = particles.createEmitter({
+  const params: ICreateEmitterParams = {
     speed: 100,
     scale: { start: 1, end: 0 },
     blendMode: 'ADD'
-  });
+  };
+  const emitter = particles.createEmitter(params);
 
   const logo = this.physics.add.image(400, 100, 'logo');
 
