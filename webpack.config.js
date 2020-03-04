@@ -1,29 +1,24 @@
 const path = require('path');
-const webpack = require('webpack');
+// const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: './src/main.js',
+  entry: "./src/index.ts",
   output: {
     path: path.resolve(__dirname, 'docs/js'),
     filename: '[name].bundle.[chunkhash].js',
   },
+  resolve: {
+    extensions: [".ts", ".js"]
+  },
   module: {
     rules: [
       {
-        test: /\.js$/,
-        include: [
-          path.resolve(__dirname, 'src')
-        ],
-        // use: {
-        //   loader: 'babel-loader',
-        //   options: {
-        //     presets: ['@babel/preset-env'],
-        //     plugins: ['@babel/plugin-proposal-class-properties']
-        //   },
-        // }
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
       },
-    ]
+    ],
   },
   plugins: [
     new HtmlWebpackPlugin({
