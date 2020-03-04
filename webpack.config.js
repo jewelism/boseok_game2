@@ -1,6 +1,7 @@
 const path = require('path');
 // const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
   entry: "./src/index.ts",
@@ -27,7 +28,10 @@ module.exports = {
       filename: path.join(__dirname, './docs/index.html'),
     }),
   ],
-
+  optimization: {
+    minimize: true,
+    minimizer: [new TerserPlugin()],
+  },
   // devtool: 'source-map',
   // mode: 'development'
   mode: 'production'
