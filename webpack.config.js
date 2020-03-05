@@ -6,11 +6,11 @@ const TerserPlugin = require('terser-webpack-plugin');
 module.exports = {
   entry: "./src/index.ts",
   output: {
-    path: path.resolve(__dirname, 'docs/js'),
-    filename: '[name].bundle.[chunkhash].js',
+    path: path.resolve(__dirname, 'docs'),
+    filename: '[name].bundle.[hash].js',
   },
   resolve: {
-    extensions: [".ts", ".js"]
+    extensions: [".ts", ".js"],
   },
   module: {
     rules: [
@@ -18,6 +18,12 @@ module.exports = {
         test: /\.tsx?$/,
         use: 'ts-loader',
         exclude: /node_modules/,
+      },
+      {
+        test: /\.(png|svg|jpg|gif)$/,
+        use: [
+          'file-loader',
+        ],
       },
     ],
   },
@@ -31,6 +37,13 @@ module.exports = {
   optimization: {
     minimize: true,
     minimizer: [new TerserPlugin()],
+  },
+  devServer: {
+    contentBase: __dirname + "docs",
+    inline: true,
+    hot: true,
+    host: "localhost",
+    port: 8080
   },
   // devtool: 'source-map',
   // mode: 'development'
