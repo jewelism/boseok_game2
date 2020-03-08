@@ -1,7 +1,9 @@
 import * as Phaser from 'phaser';
 import preload from './preloadScene';
-import create from './createScene';
+import createScene from './createScene';
+import updateScene from './updateScene';
 
+let platforms, player, cursors;
 const config = {
   type: Phaser.AUTO,
   width: 800,
@@ -15,9 +17,17 @@ const config = {
   },
   scene: {
     preload,
-    create,
-    
+    create() {
+      const [createdPlatforms, createdPlayer, createdCursors] = createScene(this);
+      platforms = createdPlatforms;
+      player = createdPlayer;
+      cursors = createdCursors;
+    },
+    update(){
+      updateScene({ player, cursors });
+    },
   }
 };
 
-new Phaser.Game(config);
+const game = new Phaser.Game(config);
+
