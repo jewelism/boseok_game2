@@ -3,7 +3,7 @@ import preload from './preloadScene';
 import createScene from './createScene';
 import updateScene from './updateScene';
 
-let platforms, player, cursors;
+let player, cursors, stars;
 const config = {
   type: Phaser.AUTO,
   width: 800,
@@ -18,12 +18,11 @@ const config = {
   scene: {
     preload,
     create() {
-      const [createdPlatforms, createdPlayer, createdCursors] = createScene(this);
-      platforms = createdPlatforms;
+      const [createdPlayer, createdCursors] = createScene(this);
       player = createdPlayer;
       cursors = createdCursors;
     },
-    update(){
+    update() {
       updateScene({ player, cursors });
     },
   }

@@ -1,4 +1,3 @@
-
 function updateScene({ player, cursors }) {
   if (cursors.left.isDown) {
     player.setVelocityX(-160);

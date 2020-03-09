@@ -1,3 +1,5 @@
+import collectStar, { scoreString } from './collectStar';
+
 function createScene(scene) {
   scene.add.image(400, 300, 'sky');
   scene.add.image(200, 300, 'star');
@@ -39,7 +41,24 @@ function createScene(scene) {
 
   const cursors = scene.input.keyboard.createCursorKeys();
 
-  return [platforms, player, cursors];
+  const stars = scene.physics.add.group({
+    key: 'star',
+    repeat: 11,
+    setXY: { x: 12, y: 0, stepX: 70 }
+  });
+
+  stars.children.iterate(child => {
+    child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
+  });
+
+  scene.physics.add.collider(stars, platforms);
+
+  let score = 0;
+  const scoreText = scene.add.text(16, 16, scoreString(score), { fontSize: '32px', fill: '#000' });
+  const collectStars = collectStar(score, scoreText);
+  scene.physics.add.overlap(player, stars, collectStars, null, scene);
+
+  return [player, cursors];
 }
 
 export default createScene;
