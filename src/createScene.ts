@@ -1,8 +1,7 @@
-import collectStar, { scoreString } from './collectStar';
+import { scoreString, collectStar, hitBomb } from './utils';
 
 function createScene(scene) {
   scene.add.image(400, 300, 'sky');
-  scene.add.image(200, 300, 'star');
 
   const platforms = scene.physics.add.staticGroup();
 
@@ -55,8 +54,11 @@ function createScene(scene) {
 
   let score = 0;
   const scoreText = scene.add.text(16, 16, scoreString(score), { fontSize: '32px', fill: '#000' });
-  const collectStars = collectStar(score, scoreText);
-  scene.physics.add.overlap(player, stars, collectStars, null, scene);
+
+  const bombs = scene.physics.add.group();
+  scene.physics.add.overlap(player, stars, collectStar(score, scoreText, stars, bombs), null, scene);
+  scene.physics.add.collider(bombs, platforms);
+  scene.physics.add.collider(player, bombs, hitBomb(scene), null, scene);
 
   return [player, cursors];
 }
